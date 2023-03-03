@@ -1,7 +1,5 @@
 import React, { Component, useState } from "react";
 import "./../styles/App.css";
-import Province from './Province'
-
 
 // Do not alter the states const and values inside it.
 const states = [
@@ -155,24 +153,80 @@ const states = [
     ],
   },
 ];
+const State = ({ name, cities, id }) => {
+	const [showState, setShowState] = useState(false);
+	return showState ? (
+		<>
+			<li
+				id={id}
+				onClick={() => {
+					setShowState(!showState);
+				}}>
+				{name}
+			</li>
+			{cities.map((city, idx) => (
+				<ul key={Math.random()}>
+					<City
+						id={'city' + (idx + 1)}
+						name={city.name}
+						towns={city.towns}
+					/>
+				</ul>
+			))}
+		</>
+	) : (
+		<li
+			id={id}
+			onClick={() => {
+				setShowState(!showState);
+			}}>
+			{name}
+		</li>
+	);
+};
+const City = ({ name, id, towns }) => {
+	const [showCity, setShowCity] = useState(false);
 
+	return showCity ? (
+		<>
+			<li
+				onClick={() => {
+					setShowCity(!showCity);
+				}}>
+				{name}
+			</li>
+			{towns.map((town, idx) => (
+				<ul key={Math.random()}>
+					<Town id={'town' + (idx + 1)} name={town.name} />
+				</ul>
+			))}
+		</>
+	) : (
+		<li
+			id={id}
+			onClick={() => {
+				setShowCity(!showCity);
+			}}>
+			{name}
+		</li>
+	);
+};
+const Town = ({ name, id }) => {
+	return <li id={'town' + (id + 1)}>{name}</li>;
+};
 function App() {
-  const [state, setState] = useState(states)
-
-  return (
-  <div id="main">
-  <ul>
-    {
-      state.map(item=>(
-        <Province
-        index={state.indexOf(item)} 
-        name={item.name}
-        cities={item.cities}  />
-      ))
-    }
-    </ul>
-  </div>
-  );
+	return (
+		<div id="main">
+			{states.map((state, idx) => (
+				<ul key={Math.random()}>
+					<State
+						id={'state' + (idx + 1)}
+						name={state.name}
+						cities={state.cities}
+					/>
+				</ul>
+			))}
+		</div>
+	);
 }
-
 export default App;
